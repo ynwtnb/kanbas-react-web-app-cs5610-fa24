@@ -285,9 +285,9 @@ export default function Lab1() {
 
                 <h4>Anchor tag</h4>
                 Please <a id="wd-lipsum" href="https://www.lipsum.com"> click here </a> to get dummy text<br/>
-                This is my <a id = "wd-github" href = "https://github.com/ynwtnb/kanbas-react-web-app-cs5610-fa24">GitHub repo</a>.
+                This is my <a id = "wd-github" href = "https://github.com/ynwtnb/kanbas-react-web-app">GitHub repo</a>.
             </div>
 
         </div>
     );
-  }
+}
