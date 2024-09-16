@@ -23,6 +23,7 @@ export default function Assignments() {
                         href = "#/Kanbas/Courses/1234/Assignments/1234">
                         A2 - CSS + BOOTSTRAP
                     </a>
+                    <br />
                     Multiple Modeules | <b>Not available until</b> May 13 at 12:00 am |
                     <br />
                     <b>Due</b> May 20 at 11:59 pm | 100 pts
@@ -32,6 +33,7 @@ export default function Assignments() {
                         href = "#/Kanbas/Courses/1234/Assignments/1234">
                         A3 - JAVASCRIPT + REACT
                     </a>
+                    <br />
                     Multiple Modules | <b>Not available until</b> May 20 at 12:00 am |
                     <br />
                     <b>Due</b> May 27 at 11:59 pm | 100 pts

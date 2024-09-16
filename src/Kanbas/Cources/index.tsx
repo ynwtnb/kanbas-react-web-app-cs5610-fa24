@@ -1,8 +1,8 @@
 import CoursesNavigation from './Navigation';
-import Modules from '../Modules';
-import Home from '../Home';
-import Assignments from '../Assignments';
-import AssignmentEditor from '../Assignments/Editor';
+import Modules from './Modules';
+import Home from './Home';
+import Assignments from './Assignments';
+import AssignmentEditor from './Assignments/Editor';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AsyncResource } from 'async_hooks';
 

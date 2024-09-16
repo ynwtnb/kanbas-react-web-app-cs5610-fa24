@@ -131,9 +131,17 @@ export default function AssignmentEditor() {
                         <input type = "date" value = "2024-05-20" id = "wd-available-until" />
                     </td>
                 </tr>
+                <tr>
+                    <td colSpan={3}>
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan={3} align = "right">
+                        <button>Cancel</button> <button>Save</button>
+                    </td>
+                </tr>
             </table>
-            <hr />
-            <button>Cancel</button> <button>Save</button>
         </div>
     );
 }
