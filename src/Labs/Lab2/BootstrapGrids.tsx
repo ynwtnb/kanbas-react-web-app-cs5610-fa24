@@ -31,7 +31,7 @@ export default function BootstrapGrids() {
                     <h3>Sidebar</h3>
                     </div>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-bs-responsive-grids">
                 <h2>Responsive grid system</h2>
                 <div className="row">
@@ -52,7 +52,7 @@ export default function BootstrapGrids() {
                         <h3>Column D</h3>
                     </div>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-bs-responsive-dramatic">
                 <h2>Responsive grid system</h2>
                 <div className="row">

@@ -18,7 +18,7 @@ export default function Positions() {
                         Square
                     </div>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-css-position-absolute">
                 <h2>Absolute position</h2>
                 <div className="wd-pos-relative">

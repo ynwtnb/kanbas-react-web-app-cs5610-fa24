@@ -24,7 +24,7 @@ export default function BootstrapForms() {
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
-            </div>
+            </div><br />
             <div id="wd-css-styling-switches">
                 <h3>Switches</h3>
                 <div className="form-check form-switch">
@@ -55,7 +55,7 @@ export default function BootstrapForms() {
                     Disabled checked switch checkbox input
                     </label>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-css-styling-range-and-sliders">
                 <h3>Range</h3>
                 <label htmlFor="range1" className="form-label">
@@ -63,7 +63,7 @@ export default function BootstrapForms() {
                 </label>
                 <input type="range" className="form-range"
                 min="0" max="5" step="0.5" id="range1" />
-            </div>
+            </div><br />
             <div id="wd-css-styling-addons">
                 <h3>Addons</h3>
                 <div className="input-group mb-3">
@@ -76,7 +76,7 @@ export default function BootstrapForms() {
                     <span className="input-group-text">$</span>
                     <span className="input-group-text">0.00</span>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-css-responsive-forms-1">
                 <h3>Responsive forms</h3>
                 <div className="mb-3 row">
@@ -104,7 +104,7 @@ export default function BootstrapForms() {
                         id="textarea2" rows={3}></textarea>
                     </div>
                 </div>
-            </div>
+            </div><br />
             <div id="wd-css-responsive-forms-2">
                 <h3>Responsive forms</h3>
                 <form>
