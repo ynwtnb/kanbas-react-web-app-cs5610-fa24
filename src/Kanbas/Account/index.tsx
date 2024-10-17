@@ -14,7 +14,7 @@ export default function Account() {
         </div>
         <div className="flex-start m-5 mt-0">
           <Routes>
-              <Route path="/" element={<Navigate to="/Kanbas/Account/Signin" />} />
+              <Route path="/" element={<Navigate to="/Kanbas/Account/Profile" />} />
               <Route path="/Signin" element={<Signin />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Signup" element={<Signup />} />

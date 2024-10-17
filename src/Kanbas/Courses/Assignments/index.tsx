@@ -4,8 +4,13 @@ import { BsGripVertical } from "react-icons/bs";
 import { TfiWrite } from "react-icons/tfi";
 import { IoEllipsisVertical } from "react-icons/io5";
 import LessonControlButtons from "../Modules/LessonControlButtons";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function Assignments() {
+    const assignments = db.assignments;
+    const { cid } = useParams();
     return (
         <div id = "wd-assignments">
             <div className="input-group float-start" style = {{ width: "250px" }}>
@@ -27,63 +32,28 @@ export default function Assignments() {
                         </div>
                     </div>
                     <ul id= "wd-assignment-list" className="list-group rounded-0">
-                        <li className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                            <div className="text-nowrap">
-                                <BsGripVertical className="me-2 fs-3" />
-                                <TfiWrite className="me-2 fs-5 text-success mt-1" />
-                            </div>
-                            <div className="text-truncate ms-3 me-3" style ={{ width: "90%" }} >
-                                <a className = "wd-assignment-link text-decoration-none text-black fw-bold"
-                                    href = "#/Kanbas/Courses/1234/Assignments/1234">
-                                    A1 - ENV + HTML
-                                </a>
-                                <br />
-                                <span className="fs-6">
-                                    <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00 am |
-                                    <br />
-                                    <b>Due</b> May 13 at 11:59 pm | 100 pts
-                                </span>
-                            </div>
-                            <span className="text-nowrap"><LessonControlButtons /></span>
-                        </li>
-                        <li className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                            <div className="text-nowrap">
-                                <BsGripVertical className="me-2 fs-3" />
-                                <TfiWrite className="me-2 fs-5 text-success mt-1" />
-                            </div>
-                            <div className="text-truncate ms-3 me-3" style={{ width: "90%" }}>
-                                <a className = "wd-assignment-link text-decoration-none text-black fw-bold"
-                                    href = "#/Kanbas/Courses/1234/Assignments/1234">
-                                    A2 - CSS + BOOTSTRAP
-                                </a>
-                                <br />
-                                <span className="fs-6">
-                                    <span className="text-danger">Multiple Modules </span> | <b>Not available until</b> May 13 at 12:00 am |
-                                    <br />
-                                    <b>Due</b> May 20 at 11:59 pm | 100 pts
-                                </span>
-                            </div>
-                            <span className="text-nowrap"><LessonControlButtons /></span>
-                        </li>
-                        <li className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                            <div className="text-nowrap">    
-                                <BsGripVertical className="me-2 fs-3" />
-                                <TfiWrite className="me-2 fs-5 text-success mt-1" />
-                            </div>
-                            <div className="text-truncate ms-3 me-3" style={{ width: "90%" }}>
-                                <a className = "wd-assignment-link text-decoration-none text-black fw-bold"
-                                    href = "#/Kanbas/Courses/1234/Assignments/1234">
-                                    A3 - JAVASCRIPT + REACT
-                                </a>
-                                <br />
-                                <span className="fs-6">
-                                    <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> May 20 at 12:00 am |
-                                    <br />
-                                    <b>Due</b> May 27 at 11:59 pm | 100 pts
-                                </span>
-                            </div>
-                            <span className="text-nowrap"><LessonControlButtons /></span>
-                        </li>
+                        {assignments.filter((assignment) => assignment.course === cid)
+                            .map((assignment) => (
+                                <li key={assignment._id} className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
+                                    <div className="text-nowrap">
+                                        <BsGripVertical className="me-2 fs-3" />
+                                        <TfiWrite className="me-2 fs-5 text-success mt-1" />
+                                    </div>
+                                    <div className="text-truncate ms-3 me-3" style ={{ width: "90%" }} >
+                                        <a className = "wd-assignment-link text-decoration-none text-black fw-bold"
+                                            href = {`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                            {assignment.title}
+                                        </a>
+                                        <br />
+                                        <span className="fs-6">
+                                            <span className="text-danger">Multiple Modules</span> | <b>Not available until</b> {assignment.availableFrom} |
+                                            <br />
+                                            <b>Due</b> {assignment.due} | {assignment.points} pts
+                                        </span>
+                                    </div>
+                                    <span className="text-nowrap"><LessonControlButtons /></span>
+                                </li>
+                        ))}
                     </ul>
                 </li>
             </ul>

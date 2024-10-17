@@ -4,16 +4,21 @@ import Home from './Home';
 import Assignments from './Assignments';
 import PeopleTable from './People/Table';
 import AssignmentEditor from './Assignments/Editor';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { AsyncResource } from 'async_hooks';
 import { FaAlignJustify } from "react-icons/fa";
+import { courses } from "../Database";
 
 export default function Courses() {
+    const { cid } = useParams();
+    const { pathname } = useLocation();
+    const course = courses.find((course) => course._id === cid);
     return (
         <div id="wd-courses">
-            <h2 className = "text-danger">
+            <h2>
                 <FaAlignJustify className = "me-4 fs-4 mb-1" />
-                Course 1234</h2>
+                <span className='text-danger'>{course && course.name}</span> 
+                <span className='text-secondary'> {pathname.split("/")[4] === "Home" ? "" : "> " + pathname.split("/")[4]}</span></h2> 
             <hr />
             <div className = "d-flex">
                 <div className  = "d-none d-md-block">
