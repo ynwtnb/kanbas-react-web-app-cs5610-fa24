@@ -7,9 +7,8 @@ import AssignmentEditor from './Assignments/Editor';
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { AsyncResource } from 'async_hooks';
 import { FaAlignJustify } from "react-icons/fa";
-import { courses } from "../Database";
 
-export default function Courses() {
+export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams();
     const { pathname } = useLocation();
     const course = courses.find((course) => course._id === cid);
