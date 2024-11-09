@@ -1,3 +1,4 @@
+import React from "react";
 export default function SimpleArrays() {
     var functionScoped = 2;
     let blockScoped = 5;

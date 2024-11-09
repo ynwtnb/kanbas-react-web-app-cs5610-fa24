@@ -31,6 +31,7 @@ import Square from "./Square";
 import Highlight from "./Highlight";
 import PathParameters from "./PathParameters";
 import { useSelector } from "react-redux";
+import React from "react";
 
 export default function Lab3() { 
     const { todos } = useSelector((state: any) => state.todosReducer);

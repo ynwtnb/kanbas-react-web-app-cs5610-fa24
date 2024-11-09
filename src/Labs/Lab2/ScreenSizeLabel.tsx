@@ -1,3 +1,4 @@
+import React from "react";
 export default function ScreenSizeLabel() {
     return (
         <div id="wd-screen-size-label">

@@ -8,6 +8,7 @@ import * as db from "./Database";
 import { useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import ProtectedCourse from "./ProtectedCourse";
+import React from "react";
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>(db.courses);

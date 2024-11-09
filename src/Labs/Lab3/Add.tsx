@@ -1,3 +1,4 @@
+import React from "react";
 export default function Add({ a, b }: { a: number; b: number }) {
     return (
         <div id="wd-add">

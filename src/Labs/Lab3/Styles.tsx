@@ -1,3 +1,4 @@
+import React from "react";
 export default function Styles() {
     const colorBlack = { color: "black" };
     const padding10px = { padding: "10px" };

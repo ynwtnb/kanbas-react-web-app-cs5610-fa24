@@ -1,3 +1,4 @@
+import React from "react";
 export default function Float() {
     return (
         <div id="wd-float-divs">

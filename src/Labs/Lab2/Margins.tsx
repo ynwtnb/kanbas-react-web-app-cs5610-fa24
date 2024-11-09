@@ -1,3 +1,4 @@
+import React from "react";
 export default function Margins() {
     return (
         <div id="wd-css-margins">

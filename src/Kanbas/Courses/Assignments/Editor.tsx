@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
 import { useState, useEffect } from "react";
+import React from "react";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();

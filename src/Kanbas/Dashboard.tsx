@@ -5,6 +5,7 @@ import ProtectedContent from "./ProtectedContent";
 import { useState } from "react";
 import { addEnrollment, deleteEnrollment } from "./enrollmentsReducer";
 import { useDispatch } from "react-redux";
+import React from "react";
 
 export default function Dashboard({
   courses, course, setCourse, addNewCourse,

@@ -7,6 +7,7 @@ import { IoMdStats } from "react-icons/io";
 import { IoMegaphoneOutline, IoNotifications, IoNotificationsOutline } from "react-icons/io5";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import ProtectedContent from "../../ProtectedContent";
+import React from "react";
 
 {/* Find more icons */}
 export default function CourseStatus() {

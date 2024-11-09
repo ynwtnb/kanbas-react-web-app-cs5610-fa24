@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
 import { useEffect } from "react";
+import React from "react";
 
 export default function DeleteDialog( { assignment } : { assignment: any } ) {
     const dispatch = useDispatch();

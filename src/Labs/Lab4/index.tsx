@@ -10,6 +10,7 @@ import ObjectStateVariable from "./ObjectStateVariable";
 import ArrayStateVariable from "./ArrayStateVariable";
 import ParentStateComponent from "./ParentStateComponent";
 import ReduxExamples from "./ReduxExamples";
+import React from "react";
 
 export default function Lab4() {
     function sayHello() {

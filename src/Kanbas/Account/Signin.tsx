@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import * as db from "../Database";
+import React from "react";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});

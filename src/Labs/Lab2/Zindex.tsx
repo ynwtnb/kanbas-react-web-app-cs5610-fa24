@@ -1,3 +1,4 @@
+import React from "react";
 export default function Zindex() {
     return (
         <div id="wd-z-index">

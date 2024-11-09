@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement } from "./counterReducer";
 export default function CounterRedux() {

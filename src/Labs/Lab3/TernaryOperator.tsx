@@ -1,3 +1,4 @@
+import React from "react";
 let loggedIn = true;
 
 export default function TernaryOperator() {

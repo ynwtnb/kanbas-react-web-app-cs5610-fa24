@@ -1,3 +1,4 @@
+import React from "react";
 let numberVariable = 123, floatingPointNumber = 234.345;
 let true1 = true, false1 = false;
 let false2 = true1 && false1;

@@ -11,6 +11,7 @@ import ProtectedContent from "../../ProtectedContent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import DeleteDialog from "./DeleteDialog";
+import React from "react";
 
 export default function Assignments() {
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);

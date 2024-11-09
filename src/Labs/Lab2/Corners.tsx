@@ -1,3 +1,4 @@
+import React from "react";
 export default function Corners() {
     return (
         <div id="wd-css-borders">

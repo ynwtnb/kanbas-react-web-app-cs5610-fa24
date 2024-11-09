@@ -2,6 +2,7 @@ import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import { IoBan, IoBanOutline } from "react-icons/io5";
 import ModuleEditor from "./ModuleEditor";
+import React from "react";
 import ProtectedContent from "../../ProtectedContent";
 
 export default function ModulesControls( { moduleName, setModuleName, addModule } : {
