@@ -32,7 +32,6 @@ export default function Assignments() {
                     }}>
                     <FaPlus className="mb-1"/> Assignment
                 </button> 
-                <button id = "wd-add-assignment-group" className="btn btn-secondary float-end me-1"><FaPlus className="mb-1"/> Group</button> 
             </ProtectedContent>
             <br /><br />
             <ul className="list-group rounded-0">
