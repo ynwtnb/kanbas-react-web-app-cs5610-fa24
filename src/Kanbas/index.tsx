@@ -5,14 +5,30 @@ import Courses from "./Courses";
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate } from "react-router";
 import * as db from "./Database";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import ProtectedCourse from "./ProtectedCourse";
 import React from "react";
 import Session from "./Account/Session";
+import * as userClient from "./Account/client";
+import * as courseClient from "./Courses/client";
 
 export default function Kanbas() {
 	const [courses, setCourses] = useState<any[]>(db.courses);
+	const { currentUser } = useSelector((state: any) => state.accountReducer);
+	const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+	const fetchCourses = async () => {
+		try {
+			const courses = await userClient.findMyCourses();
+			setCourses(courses);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	useEffect(() => {
+		fetchCourses();
+	}, [currentUser, enrollments]);
 	const [course, setCourse] = useState<any>({
 		_id: "0",
 		name: "New Course",
@@ -22,14 +38,36 @@ export default function Kanbas() {
 		image: "/images/reactjs.jpg",
 		description: "New Description",
 	});
-	const addNewCourse = () => {
-		const newCourse = { ...course, _id: new Date().getTime().toString() };
+	const addNewCourse = async () => {
+		const newCourse = await userClient.createCourse(course);
 		setCourses([...courses, { ...course, ...newCourse }]);
+		setCourse({
+			_id: "0",
+			name: "New Course",
+			number: "New Number",
+			startDate: "2023-09-10",
+			endDate: "2023-12-15",
+			image: "/images/reactjs.jpg",
+			description: "New Description"
+		});
 	};
-	const deleteCourse = (courseId: string) => {
+	const deleteCourse = async (courseId: string) => {
+		const status = await courseClient.deleteCourse(courseId);
+		if (course._id === courseId) {
+			setCourse({
+				_id: "0",
+				name: "New Course",
+				number: "New Number",
+				startDate: "2023-09-10",
+				endDate: "2023-12-15",
+				image: "/images/reactjs.jpg",
+				description: "New Description"
+			});
+		}
 		setCourses(courses.filter((course) => course._id !== courseId));
 	};
-	const updateCourse = () => {
+	const updateCourse = async () => {
+		await courseClient.updateCourse(course);
 		setCourses(
 			courses.map((c) => {
 				if (c._id === course._id) {

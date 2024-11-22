@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
 import { useState, useEffect } from "react";
 import React from "react";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const [assignment, setAssignment] = useState<any>({});
-    let newAssignment = false;
+    const [isNewAssignment, setIsNewAssignment] = useState(false);
     const dispatch = useDispatch();
     const getAssignment = () => {
         const editedAssignment = assignments.filter((a: any) => (a._id == aid))
@@ -17,13 +19,20 @@ export default function AssignmentEditor() {
         }
         else {
             setAssignment({ _id: aid, course: cid });
-            newAssignment = true;
+            setIsNewAssignment(true);
         }
     }
     useEffect(() => {
         getAssignment();
     }, []);
-
+    const createAssignment = async (assignment: any) => {
+        const newAssignment = await coursesClient.createAssignmentForCourse(cid as string, assignment);
+        dispatch(addAssignment(newAssignment));
+    };
+    const saveAssignment = async (assignment: any) => {
+        const updatedAssignment = await assignmentsClient.updateAssignment(aid as string, assignment);
+        dispatch(updateAssignment(updatedAssignment));
+    };
     return (
         <div id = "wd-assignments-editor" className="m-5">
             <div>
@@ -115,10 +124,11 @@ export default function AssignmentEditor() {
             <Link to={`../../../Kanbas/Courses/${cid}/Assignments`}>
                 <button className="btn btn-primary btn-danger me-5 float-end"
                     onClick={(e) => {
-                        if (!newAssignment) {
-                            dispatch(updateAssignment(assignment));
+                        if (!isNewAssignment) {
+                            saveAssignment(assignment);
+                        } else {
+                            createAssignment(assignment);
                         }
-                        dispatch(addAssignment(assignment));
                     }}>
                 Save</button>
             </Link>

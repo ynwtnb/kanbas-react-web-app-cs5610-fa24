@@ -9,15 +9,26 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import ProtectedContent from "../../ProtectedContent";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteDialog from "./DeleteDialog";
 import React from "react";
+import * as coursesClient from "../client";
+import { useDispatch } from "react-redux";
+import { setAssignments } from "./reducer";
 
 export default function Assignments() {
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const [currentAssignment, setCurrentAssignment] = useState<any>({_id: "", title:""});
     const { cid } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const fetchAssignments = async () => {
+        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    }
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
     return (
         <div id = "wd-assignments">
             <div className="input-group float-start" style = {{ width: "250px" }}>
@@ -49,7 +60,7 @@ export default function Assignments() {
                         </ProtectedContent>
                     </div>
                     <ul id= "wd-assignment-list" className="list-group rounded-0">
-                        {assignments.filter((assignment: any) => assignment.course === cid)
+                        {assignments
                             .map((assignment: any) => (
                                 <li key={assignment._id} className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
                                     <div className="text-nowrap">

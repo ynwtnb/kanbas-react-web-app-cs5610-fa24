@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as db from "./Database";
+import * as db from "../Database";
 
 const initialState = {
     enrollments: db.enrollments,
@@ -15,7 +15,7 @@ const enrollmentsSlice = createSlice({
         },
         deleteEnrollment: (state, { payload: enrollmentId }) => {
             state.enrollments = state.enrollments.filter(
-                (enrollment) => enrollment._id !== enrollmentId
+                (enrollment: any) => enrollment._id !== enrollmentId
             );
             console.log("Enrollment deleted: ", state.enrollments);
         },

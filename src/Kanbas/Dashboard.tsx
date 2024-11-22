@@ -2,10 +2,13 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as db from "./Database";
 import ProtectedContent from "./ProtectedContent";
-import { useState } from "react";
-import { addEnrollment, deleteEnrollment } from "./enrollmentsReducer";
+import { useEffect, useState } from "react";
+import { addEnrollment, deleteEnrollment } from "./Enrollments/enrollmentsReducer";
 import { useDispatch } from "react-redux";
 import React from "react";
+import * as courseClient from "./Courses/client";
+import * as usersClient from "./Account/client";
+import * as enrollmentsClient from "./Enrollments/client";
 
 export default function Dashboard({
   courses, course, setCourse, addNewCourse,
@@ -18,16 +21,27 @@ export default function Dashboard({
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const [showEnrollments, setShowEnrollments] = useState(false);
+  const [allCourses, setAllCoursees] = useState<any[]>(db.courses);
+  const fetchAllCourses = async () => {
+    try {
+      const fetchedCourses = await courseClient.fetchAllCourses();
+      setAllCoursees(fetchedCourses);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => { fetchAllCourses(); }, []);
   const dispatch = useDispatch();
-  const enroll = (course: any) => {
-      const newEnrollment = {
-        _id: new Date().getTime().toString(),
-        user: currentUser._id,
-        course: course._id,
-      }
+  const enroll = async (course: any) => {
+      const newEnrollment = await enrollmentsClient.enrollCourse(course._id as string);
       dispatch(addEnrollment(newEnrollment));
   }
-  const unenroll = (course: any) => {
+  const unenroll = async (course: any) => {
+    try {
+      await enrollmentsClient.unenrollCourse(course._id as string);
+    } catch (error) {
+      console.error(error);
+    }
     const foundEnrollment = enrollments.find((e: any) => (
       e.user === currentUser._id &&
       e.course === course._id
@@ -66,13 +80,6 @@ export default function Dashboard({
         <div id="wd-dashboard-courses" className="row">
           <div className="row row-cols-1 row-cols-md-5 g-4">
             {courses
-            .filter((course) => 
-              enrollments.some(
-                (enrollment: any) =>
-                  enrollment.user === currentUser._id &&
-                  enrollment.course === course._id
-              )
-            )
             .map((course) => (
               <div className="wd-dashboard-course col" style={{ width: "300px" }}>
                 <div className="card rounded-3 overflow-hidden">
@@ -113,7 +120,7 @@ export default function Dashboard({
       { showEnrollments &&
         <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses
+          {allCourses
           .map((course) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
