@@ -15,12 +15,19 @@
         "showCorrectAnswers": true,
         "accessCode": "",
         "oneQuestionAtATime": true,
-        "webcamReauired": false,
+        "webcamRequired": false,
         "lockQuestionsAfter": false,
         "due": "2024-11-11T23:59",
         "availableFrom": "2024-10-10T00:00",
         "availableUntil": "2024-10-17T23:59",
-        "questions": [],
+        "questions": [
+            {
+                "order": 1,
+                "question": "This is a question",
+                "points": 1,
+                "type": "Multiple Choice"
+            }
+        ],
         "published": true
     },
     {
@@ -39,7 +46,7 @@
         "showCorrectAnswers": true,
         "accessCode": "",
         "oneQuestionAtATime": true,
-        "webcamReauired": false,
+        "webcamRequired": false,
         "lockQuestionsAfter": false,
         "due": "2024-11-18T23:59",
         "availableFrom": "2024-11-12T00:00",

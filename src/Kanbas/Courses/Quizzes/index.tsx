@@ -12,14 +12,13 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addQuiz, deleteQuiz, updateQuiz } from "./reducer";
+import { deleteQuiz, updateQuiz } from "./reducer";
 
 export default function Quizzes() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { cid } = useParams();
     const { quizzes } = useSelector((state: any) => state.quizzesReducer);
-    const [ currentQuiz, setCurrentQuiz ] = useState<any>({ _id: "", title: "" });
     const today = new Date();
 
     const checkQuizAvailability = (availableFrom: string, availableUntil: string) => {
@@ -35,6 +34,10 @@ export default function Quizzes() {
             return <b>Available</b>
         }
     }
+    const updatePublishStatus = (quiz: any) => {
+        const updatedQuiz = { ...quiz, published: !quiz.published };
+        dispatch(updateQuiz(updatedQuiz));
+    }
     return (
         <div id = "wd-quizzes">
             <div className="input-group float-start" style = {{ width: "250px" }}>
@@ -45,7 +48,7 @@ export default function Quizzes() {
                 <button id = "wd=add-quiz" className="btn btn-primary float-end me-1 bg-danger border-danger"
                     onClick={(e) => {
                         const newId =  new Date().getTime().toString();  
-                        navigate(`/Kanbas/Courses/${cid}/Quizzes/${newId}`);
+                        navigate(`/Kanbas/Courses/${cid}/Quizzes/${newId}/edit`);
                     }}>
                     <FaPlus className="mb-1"/> Quiz
                 </button> 
@@ -81,20 +84,19 @@ export default function Quizzes() {
                                     </div>
                                     <ProtectedContent role='FACULTY'>
                                         <span className="d-flex float-end">
-                                            {quiz.published ? <GreenCheckmark /> : <FcCancel className="fs-3" />}
+                                            {quiz.published ? 
+                                                <button className="border-0 bg-white p-0" onClick={() => { updatePublishStatus(quiz); }}><GreenCheckmark /></button> : 
+                                                <button className="border-0 bg-white p-0" onClick={() => { updatePublishStatus(quiz); }}><FcCancel className="fs-3 mb-1" /></button>}
                                             <div className="dropdown">
                                                 <button className="border-0 bg-transparent" data-bs-toggle="dropdown" id="quiz-context-menu"><IoEllipsisVertical className="fs-4 mb-2" /></button>
                                                 <ul className="dropdown-menu" aria-labelledby="quiz-context-menu">
                                                     <li><a className="dropdown-item" onClick={() => 
-                                                            navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`)}>Edit</a></li>
+                                                            navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/edit`)}>Edit</a></li>
                                                     <li><a className="dropdown-item" onClick={
                                                         () => dispatch(deleteQuiz(quiz._id))
                                                     }>Delete</a></li>
                                                     <li><a className="dropdown-item" onClick={
-                                                        () => {
-                                                            const updatedQuiz = { ...quiz, published: !quiz.published };
-                                                            dispatch(updateQuiz(updatedQuiz));
-                                                        }
+                                                        () => { updatePublishStatus(quiz); }
                                                     }>{quiz.published ? "Unpublish" : "Publish"}</a></li>
                                                     <li><a className="dropdown-item">Copy</a></li>
                                                     <li><a className="dropdown-item">Sort</a></li>

@@ -11,6 +11,7 @@ const quizzesSlice = createSlice({
     reducers: {
         addQuiz: (state, { payload: quiz }) => {
             state.quizzes = [...state.quizzes, quiz] as any;
+            console.log("added new quiz:", state.quizzes);
         },
         deleteQuiz: (state, { payload: quizId }) => {
             state.quizzes = state.quizzes.filter(
@@ -20,7 +21,8 @@ const quizzesSlice = createSlice({
         updateQuiz: (state, { payload: quiz }) => {
             state.quizzes = state.quizzes.map((q: any) => (
                 q._id === quiz._id ? quiz : q
-            )) as any;
+            ));
+            console.log("updated a quiz:", state.quizzes);
         },
     },
 });
