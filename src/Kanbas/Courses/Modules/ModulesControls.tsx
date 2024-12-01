@@ -10,13 +10,13 @@ export default function ModulesControls( { moduleName, setModuleName, addModule 
 }) {
     return (
         <div id="wd-modules-controls" className="text-nowrap">
-            <ProtectedContent role='FACULTY'>
+            <ProtectedContent role={['FACULTY']}>
                 <button id="wd-add-module-btn" className="btn btn-md btn-danger me-1 float-end"
                     data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog">
                     <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
                     Module</button>
             </ProtectedContent>
-            <ProtectedContent role='FACULTY'>
+            <ProtectedContent role={['FACULTY']}>
                 <div className="dropdown d-inline me-1 float-end">
                     <button id="wd-publish-all-btn" className="btn btn-md btn-secondary dropdown-toggle"
                         type="button" data-bs-toggle="dropdown">
@@ -45,7 +45,7 @@ export default function ModulesControls( { moduleName, setModuleName, addModule 
                     </ul>
                 </div>
             </ProtectedContent>
-            <ProtectedContent role='FACULTY'>    
+            <ProtectedContent role={['FACULTY']}>    
                 <button id = "wd-view-progress" className="btn btn-md btn-secondary float-end me-1">
                     View Progress
                 </button>
