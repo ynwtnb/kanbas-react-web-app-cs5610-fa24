@@ -22,7 +22,7 @@ export default function Dashboard({
 	updateCourse,
 	enrolling,
 	setEnrolling,
-  updateEnrollment
+	updateEnrollment,
 }: {
 	courses: any[];
 	course: any;
@@ -32,7 +32,7 @@ export default function Dashboard({
 	updateCourse: () => void;
 	enrolling: boolean;
 	setEnrolling: (enrolling: boolean) => void;
-  updateEnrollment: (courseId: string, enrolled: boolean) => void;
+	updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
 	const { currentUser } = useSelector((state: any) => state.accountReducer);
 	const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
@@ -62,7 +62,7 @@ export default function Dashboard({
 				</ProtectedContent>
 			</h1>
 			<hr />
-			<ProtectedContent role={["FACULTY"]}>
+			<ProtectedContent role={["FACULTY", "ADMIN"]}>
 				<h5>
 					New Course
 					<button
@@ -82,6 +82,14 @@ export default function Dashboard({
 					</button>
 				</h5>
 				<br />
+				<input type="file" className="form-control mb-2" id="file-upload"
+					defaultValue=""
+					onChange={(e) => {
+						if (e.target.files) {
+							const filename = e.target.files[0].name;
+							setCourse({ ...course, image: `/images/${filename}` });
+						}
+					}} />
 				<input
 					value={course.name}
 					className="form-control mb-2"
@@ -100,75 +108,76 @@ export default function Dashboard({
 				</h2>{" "}
 				<hr />
 			</ProtectedContent>
-				<div id="wd-dashboard-courses" className="row">
-					<div className="row row-cols-1 row-cols-md-5 g-4">
-						{courses.map((course) => (
-							<div
-								className="wd-dashboard-course col"
-								style={{ width: "300px" }}
-							>
-								<div className="card rounded-3 overflow-hidden">
-									<Link
-										to={`/Kanbas/Courses/${course._id}/Home`}
-										className="wd-dashboard-course-link text-decoration-none text-dark"
-									>
-										<img src={course.image} width="100%" height={160} />
-										<div className="card-body">
-											<h5
-												className="wd-dashboard-course-title card-title overflow-y-hidden"
-												style={{ maxHeight: 50 }}
-											>
-												{course.name}{" "}
-											</h5>
-											<p
-												className="wd-dashboard-course-title card-text overflow-y-hidden"
-												style={{ maxHeight: 100 }}
-											>
-												{course.description}{" "}
-											</p>
-											{!enrolling ? <button className="btn btn-primary"> Go </button>: null}
-                      <ProtectedContent role={["STUDENT", "TA"]}>
-                        {enrolling ? (
-                            <button
-                              className={`btn float-end mb-2 ${course.enrolled ? "btn-danger" : "btn-success"}`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                updateEnrollment(course._id, !course.enrolled);
-                              }}
-                            >
-                              {course.enrolled ? "Unenroll" : "Enroll"}
-                            </button>
-                          ) : null}
-                      </ProtectedContent>
-											<ProtectedContent role={["FACULTY"]}>
+			<div id="wd-dashboard-courses" className="row">
+				<div className="row row-cols-1 row-cols-md-5 g-4">
+					{courses.map((course) => (
+						<div className="wd-dashboard-course col" style={{ width: "300px" }}>
+							<div className="card rounded-3 overflow-hidden">
+								<Link
+									to={`/Kanbas/Courses/${course._id}/Home`}
+									className="wd-dashboard-course-link text-decoration-none text-dark"
+								>
+									<img src={course.image} width="100%" height={160} />
+									<div className="card-body">
+										<h5
+											className="wd-dashboard-course-title card-title overflow-y-hidden"
+											style={{ maxHeight: 50 }}
+										>
+											{course.name}{" "}
+										</h5>
+										<p
+											className="wd-dashboard-course-title card-text overflow-y-hidden"
+											style={{ maxHeight: 100 }}
+										>
+											{course.description}{" "}
+										</p>
+										{!enrolling ? (
+											<button className="btn btn-primary"> Go </button>
+										) : null}
+										<ProtectedContent role={["STUDENT", "TA"]}>
+											{enrolling ? (
 												<button
-													onClick={(event) => {
-														event.preventDefault();
-														deleteCourse(course._id);
+													className={`btn float-end mb-2 ${
+														course.enrolled ? "btn-danger" : "btn-success"
+													}`}
+													onClick={(e) => {
+														e.preventDefault();
+														updateEnrollment(course._id, !course.enrolled);
 													}}
-													className="btn btn-danger float-end"
-													id="wd-delete-course-click"
 												>
-													Delete
+													{course.enrolled ? "Unenroll" : "Enroll"}
 												</button>
-												<button
-													id="wd-edit-course-click"
-													onClick={(event) => {
-														event.preventDefault();
-														setCourse(course);
-													}}
-													className="btn btn-warning me-2 float-end"
-												>
-													Edit
-												</button>
-											</ProtectedContent>
-										</div>
-									</Link>
-								</div>
+											) : null}
+										</ProtectedContent>
+										<ProtectedContent role={["FACULTY", "ADMIN"]}>
+											<button
+												onClick={(event) => {
+													event.preventDefault();
+													deleteCourse(course._id);
+												}}
+												className="btn btn-danger float-end"
+												id="wd-delete-course-click"
+											>
+												Delete
+											</button>
+											<button
+												id="wd-edit-course-click"
+												onClick={(event) => {
+													event.preventDefault();
+													setCourse(course);
+												}}
+												className="btn btn-warning me-2 float-end"
+											>
+												Edit
+											</button>
+										</ProtectedContent>
+									</div>
+								</Link>
 							</div>
-						))}
-					</div>
+						</div>
+					))}
 				</div>
+			</div>
 		</div>
 	);
 }
