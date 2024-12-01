@@ -61,7 +61,7 @@ export default function Modules() {
 						key={module._id}
 					>
 						<div className="wd-title p-3 ps-2 bg-secondary overflow-hidden">
-							<ProtectedContent role="FACULTY">
+							<ProtectedContent role={["FACULTY"]}>
 								<BsGripVertical className="me-2 fs-3" />
 							</ProtectedContent>
 							<span className="fw-bold">{!module.editing && module.name}</span>
@@ -79,7 +79,7 @@ export default function Modules() {
 									defaultValue={module.name}
 								/>
 							)}
-							<ProtectedContent role="FACULTY">
+							<ProtectedContent role={["FACULTY"]}>
 								<ModuleControlButtons
 									moduleId={module._id}
 									deleteModule={(moduleId) => removeModule(moduleId)}
@@ -91,11 +91,11 @@ export default function Modules() {
 							{module.lessons &&
 								module.lessons.map((lesson: any) => (
 									<li className="wd-lesson list-group-item p-3 ps-1">
-										<ProtectedContent role="FACULTY">
+										<ProtectedContent role={["FACULTY"]}>
 											<BsGripVertical className="me-2 fs-3" />
 										</ProtectedContent>
 										{lesson.name}
-										<ProtectedContent role="FACULTY">
+										<ProtectedContent role={["FACULTY"]}>
 											<LessonControlButtons />
 										</ProtectedContent>
 									</li>

@@ -2,20 +2,18 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import React from "react";
+import * as userClient from "./Account/client";
 
-export default function ProtectedCourse({ children }: { children: any }) {
+export default function ProtectedCourse({ courses, enrolling, children }: { courses: any, enrolling: boolean, children: any }) {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { cid } = useParams();
-    const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
     if (!currentUser) {
         return <Navigate to="/Kanbas/Account/Signin" />;
     }
-    const isEnrolled = enrollments.find((enrollment: any) => (
-        enrollment.user === currentUser._id &&
-        enrollment.course === cid
-    ))
-    if (isEnrolled) {
-        return children;
-    } else {
+    const course = courses.find((c: any) => c._id === cid);
+    if (!course || enrolling) {
         return <Navigate to="/Kanbas/Dashboard" />;
-}}
+    } else {
+        return children;
+    }
+};

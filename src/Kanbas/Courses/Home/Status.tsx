@@ -14,7 +14,7 @@ export default function CourseStatus() {
   return (
     <div id="wd-course-status" className="d-none d-xl-block m-4 mt-0" style={{ width: "300px" }}>
       <h2>Course Status</h2>
-      <ProtectedContent role='FACULTY'>
+      <ProtectedContent role={['FACULTY']}>
         <div className="d-flex">
           <div className="w-50 pe-1">
             <button className="btn btn-md btn-secondary w-100 text-nowrap ">
@@ -38,7 +38,7 @@ export default function CourseStatus() {
         <IoMdStats className="me-2 fs-5" />
         View Course Stream
       </button>
-      <ProtectedContent role='FACULTY'>
+      <ProtectedContent role={['FACULTY']}>
         <button className="btn btn-md btn-secondary w-100 mt-1 text-start">
           <IoMegaphoneOutline className="me-2 fs-5" />
           New Annoucement

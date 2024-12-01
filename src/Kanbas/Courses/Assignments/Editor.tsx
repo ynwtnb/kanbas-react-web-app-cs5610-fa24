@@ -33,6 +33,29 @@ export default function AssignmentEditor() {
         const updatedAssignment = await assignmentsClient.updateAssignment(aid as string, assignment);
         dispatch(updateAssignment(updatedAssignment));
     };
+    const updateOnlineEntry = (e: any, entryOption: string) => {
+        if (e.target.checked) {
+            setAssignment({
+                ...assignment,
+                onlineEntry: [...(assignment.onlineEntry || []), entryOption]
+            });
+        } else {
+            setAssignment({
+                ...assignment,
+                onlineEntry: (assignment.onlineEntry || []).filter((type: string) => type !== entryOption)
+            });
+        }
+    };
+    const formatDate = (date: any) => {
+        if (!date) return '';
+        const localDate = new Date(date);
+        const year = localDate.getFullYear();
+        const month = String(localDate.getMonth() + 1).padStart(2, '0');
+        const day = String(localDate.getDate()).padStart(2, '0');
+        const hours = String(localDate.getHours()).padStart(2, '0');
+        const minutes = String(localDate.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
     return (
         <div id = "wd-assignments-editor" className="m-5">
             <div>
@@ -63,6 +86,7 @@ export default function AssignmentEditor() {
                     <select id = "wd-display-grade-as" className="col form-select" value={assignment.display}
                         onChange={(e) => setAssignment({...assignment, display: e.target.value }) }>
                         <option value = "Percentage">Percentage</option>
+                        <option value = "Point">Point</option>
                     </select>
                 </div>
                 <div className="row mt-4 me-5 row-col-2">
@@ -74,23 +98,33 @@ export default function AssignmentEditor() {
                         </select>
                         <label className="form-label fw-bold mt-3">Online Entry Options</label>
                         <div className="form-check mt-3">
-                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-text-entry" className="form-check-input"/>
-                            <label htmlFor = "wd-text-entry" className="form-check-label">Text Entry</label>
+                            <input type="checkbox" name="wd-online-entry-options" id="wd-text-entry" className="form-check-input"
+                                checked={assignment.onlineEntry?.includes("Text Entry")}
+                                onChange={(e) => {updateOnlineEntry(e, "Text Entry")}} />
+                            <label htmlFor="wd-text-entry" className="form-check-label">Text Entry</label>
                         </div>
                         <div className="form-check mt-3">
-                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-website-url" className="form-check-input" />
+                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-website-url" className="form-check-input"
+                            checked={assignment.onlineEntry?.includes("Website URL")}
+                            onChange={(e) => {updateOnlineEntry(e, "Website URL")}} />
                             <label htmlFor = "wd-website-url" className="form-check-label">Website URL</label>
                         </div>
                         <div className="form-check mt-3">
-                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-media-recordings" className="form-check-input"/>
+                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-media-recordings" className="form-check-input"
+                            checked={assignment.onlineEntry?.includes("Media Recordings")}
+                            onChange={(e) => {updateOnlineEntry(e, "Media Recordings")}}/>
                             <label htmlFor = "wd-media-recordings" className="form-check-label">Media Recordings</label>
                         </div>
                         <div className="form-check mt-3">
-                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-student-annotation" className="form-check-input"/>
+                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-student-annotation" className="form-check-input"
+                            checked={assignment.onlineEntry?.includes("Student Annotation")}
+                            onChange={(e) => {updateOnlineEntry(e, "Student Annotation")}}/>
                             <label htmlFor = "wd-student-annotation" className="form-check-label">Student Annotation</label>
                         </div>
                         <div className="form-check mt-3">
-                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-file-upload" className="form-check-input"/>
+                            <input type = "checkbox" name = "wd-online-entry-options" id = "wd-file-upload" className="form-check-input"
+                            checked={assignment.onlineEntry?.includes("File Upload")}
+                            onChange={(e) => {updateOnlineEntry(e, "File Upload")}}/>
                             <label htmlFor = "wd-file-upload" className="form-check-label">File Upload</label>
                         </div>
                     </div>
@@ -103,17 +137,17 @@ export default function AssignmentEditor() {
                             onChange={(e) => setAssignment({...assignment, assignTo: e.target.value }) }>
                             <option>Everyone</option></select>
                         <label htmlFor = "wd-due-date" className="form-label mt-3">Due</label>
-                        <input type = "datetime-local" value = {assignment.due} id = "wd-due-date" className="form-control" 
+                        <input type = "datetime-local" value = {formatDate(assignment.due)} id = "wd-due-date" className="form-control" 
                             onChange={(e) => setAssignment({...assignment, due: e.target.value }) }/>
                         <div className="row row-col-2 mt-3">
                             <div className="col" style={{maxWidth: "50%"}}>
                                 <label htmlFor = "wd-available-from" className="form-label">Available from</label>
-                                <input type = "datetime-local" value = {assignment.availableFrom} id = "wd-available-from" className="form-control" 
+                                <input type = "datetime-local" value = {formatDate(assignment.availableFrom)} id = "wd-available-from" className="form-control" 
                                     onChange={(e) => setAssignment({...assignment, availableFrom: e.target.value }) }/>
                             </div>
                             <div className="col" style={{maxWidth: "50%"}}>
                                 <label htmlFor = "wd-available-until" className="form-label">Until</label>
-                                <input type = "datetime-local" value={assignment.availableUntil} id = "wd-available-until" className="form-control"
+                                <input type = "datetime-local" value={formatDate(assignment.availableUntil)} id = "wd-available-until" className="form-control"
                                     onChange={(e) => setAssignment({...assignment, availableUntil: e.target.value }) }/>`
                             </div>
                         </div>

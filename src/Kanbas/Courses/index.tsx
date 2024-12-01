@@ -8,11 +8,25 @@ import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-do
 import { AsyncResource } from 'async_hooks';
 import { FaAlignJustify } from "react-icons/fa";
 import React from "react";
+import * as courseClient from "./client";
+import { useState, useEffect } from 'react';
 
 export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams();
     const { pathname } = useLocation();
+    const [users, setUsers] = useState<any[]>([]);
     const course = courses.find((course) => course._id === cid);
+    const fetchUsersForCourse = async () => {
+        try {
+            const courseUsers = await courseClient.findUsersForCourse(cid as string);
+            setUsers(courseUsers);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchUsersForCourse();
+    }, [cid]);
     return (
         <div id="wd-courses">
             <h2>
@@ -35,7 +49,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
                     <Route path="Zoom" element={<h2>Zoom</h2>} />
                     <Route path="Grades" element={<h2>Grades</h2>} />
                     <Route path="Piazza" element={<h2>Piazza</h2>} />
-                    <Route path="People" element={<PeopleTable />} />
+                    <Route path="People" element={<PeopleTable users={users}/>} />
                     </Routes>
                 </div>
             </div>
