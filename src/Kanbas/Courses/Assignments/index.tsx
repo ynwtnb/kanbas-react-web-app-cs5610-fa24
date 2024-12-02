@@ -1,6 +1,7 @@
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
+import { MdRocketLaunch } from "react-icons/md";
 import { BsGripVertical } from "react-icons/bs";
 import { TfiWrite } from "react-icons/tfi";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -15,6 +16,7 @@ import React from "react";
 import * as coursesClient from "../client";
 import { useDispatch } from "react-redux";
 import { setAssignments } from "./reducer";
+import { fetchAssignments, formatDate, returnAvailability } from "./util";
 
 export default function Assignments() {
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
@@ -23,40 +25,9 @@ export default function Assignments() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const now = new Date();
-    const fetchAssignments = async () => {
-        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-        dispatch(setAssignments(assignments));
-    }
     useEffect(() => {
-        fetchAssignments();
+        fetchAssignments(cid, dispatch);
     }, []);
-    const formatDate = (date: any) => {
-        if (!date) return '';
-        const localDate = new Date(date);
-        const year = localDate.getFullYear();
-        const month = String(localDate.getMonth() + 1).padStart(2, '0');
-        const day = String(localDate.getDate()).padStart(2, '0');
-        const hours = String(localDate.getHours()).padStart(2, '0');
-        const minutes = String(localDate.getMinutes()).padStart(2, '0');
-        return `${year}-${month}-${day}T${hours}:${minutes}`;
-    };
-    const checkAvailability = (availableFrom: any) => {
-        const localAvailableFrom = new Date(availableFrom);
-        return localAvailableFrom < now;
-    };
-    const checkClosed = (availableUntil: any) => {
-        const localAvailableUntil = new Date(availableUntil);
-        return localAvailableUntil < now;
-    };
-    const returnAvailability = (availableFrom: any, availableUntil: any) => {
-        if (!checkAvailability(availableFrom)) {
-            return <span><b> Not Available Until</b> {formatDate(availableFrom)}</span>
-        } else if (checkClosed(availableUntil)) {
-            return <span><b className="text-danger"> Closed</b></span>
-        } else {
-            return <span><b> Available Until</b> {formatDate(availableUntil)}</span>
-        }
-    };
     return (
         <div id = "wd-assignments">
             <div className="input-group float-start" style = {{ width: "250px" }}>
@@ -92,17 +63,17 @@ export default function Assignments() {
                                 <li key={assignment._id} className = "wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
                                     <div className="text-nowrap">
                                         <ProtectedContent role={['FACULTY']}><BsGripVertical className="me-2 fs-3" /></ProtectedContent>
-                                        <TfiWrite className="me-2 fs-5 text-success mt-1" />
+                                        {assignment.assignmentGroup === "QUIZZES" ? <MdRocketLaunch className="me-2 fs-5 text-success mt-1" /> :<TfiWrite className="me-2 fs-5 text-success mt-1" />}
                                     </div>
                                     <div className="text-truncate ms-3 me-3" style ={{ width: "90%" }} >
                                         <a className = "wd-assignment-link text-decoration-none text-black fw-bold"
-                                            href = {`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                            href = {assignment.assignmentGroup === 'QUIZZES' ? `#/Kanbas/Courses/${cid}/Quizzes/${assignment._id}`:`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
                                             {assignment.title}
                                         </a>
                                         <br />
                                         <span className="fs-6">
                                             <span className="text-danger">Multiple Modules</span> | 
-                                            {returnAvailability(assignment.availableFrom, assignment.availableUntil)} |
+                                            {returnAvailability(now, assignment.availableFrom, assignment.availableUntil)} |
                                             <br />
                                             <b>Due</b> {formatDate(assignment.due)} | {assignment.points} pts
                                         </span>

@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import * as db from "../../Database";
 
 const initialState = {
-    quizzes: db.quizzes,
-}
+    quizzes: [],
+};
 
 const quizzesSlice = createSlice({
     name: "quizzes",
     initialState,
     reducers: {
+        setQuizzes: (state, { payload: quizzes }) => {
+            state.quizzes = quizzes;
+        },
         addQuiz: (state, { payload: quiz }) => {
             state.quizzes = [...state.quizzes, quiz] as any;
             console.log("added new quiz:", state.quizzes);
@@ -21,11 +23,11 @@ const quizzesSlice = createSlice({
         updateQuiz: (state, { payload: quiz }) => {
             state.quizzes = state.quizzes.map((q: any) => (
                 q._id === quiz._id ? quiz : q
-            ));
+            )) as any;
             console.log("updated a quiz:", state.quizzes);
         },
     },
 });
 
-export const { addQuiz, deleteQuiz, updateQuiz } = quizzesSlice.actions;
+export const { setQuizzes, addQuiz, deleteQuiz, updateQuiz } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

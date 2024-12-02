@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addQuiz, updateQuiz } from "./reducer";
+import { addAssignment, updateAssignment } from "../Assignments/reducer";
 import { useState, useEffect } from "react";
 import React from "react";
 import ProtectedContent from "../../ProtectedContent";
 import { GrEdit } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../Assignments/util";
 
 export default function QuizDetails() {
     const { cid, qid } = useParams();
@@ -26,7 +27,7 @@ export default function QuizDetails() {
     const navigate = useNavigate();
     return (
         <div id="wd-quiz-details">
-            <ProtectedContent role='FACULTY'>
+            <ProtectedContent role={['FACULTY']}>
                 <button id='wd-quiz-preview' className="btn btn-secondary me-2">Preview</button>
                 <button id='wd-quiz-preview' className="btn btn-secondary"
                     onClick={() => { navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/edit`); }}><GrEdit className="me-2" />Edit</button>
@@ -37,7 +38,7 @@ export default function QuizDetails() {
                         <b>Quiz Type</b>
                     </div>
                     <div className="col">
-                        {quiz.type}
+                        {quiz.quizType}
                     </div>
                 </div>
                 <div id='wd-quiz-properties' className="row row-col-2 mb-2">
@@ -142,9 +143,9 @@ export default function QuizDetails() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{quiz.due}</td>
-                            <td>{quiz.availableFrom}</td>
-                            <td>{quiz.availableUntil}</td>
+                            <td>{formatDate(quiz.due)}</td>
+                            <td>{formatDate(quiz.availableFrom)}</td>
+                            <td>{formatDate(quiz.availableUntil)}</td>
                         </tr>
                     </tbody>
                 </table>
