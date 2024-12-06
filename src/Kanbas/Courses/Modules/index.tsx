@@ -40,6 +40,7 @@ export default function Modules() {
 		dispatch(deleteModule(moduleId));
 	};
 	const saveModule = async (module: any) => {
+		console.log(module);
 		await modulesClient.updateModule(module);
 		dispatch(updateModule(module));
 	};
