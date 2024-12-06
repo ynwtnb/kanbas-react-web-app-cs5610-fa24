@@ -10,3 +10,7 @@ export const updateAssignment = async (assignmentId: string, assignment: any) =>
     const response = await axiosWithCredentials.put(`${ASSIGNMENTS_API}/${assignmentId}`, assignment);
     return response.data;
 };
+export const getAssignment = async (assignmentId: string) => {
+    const response = await axiosWithCredentials.get(`${ASSIGNMENTS_API}/${assignmentId}`);
+    return response.data;
+};

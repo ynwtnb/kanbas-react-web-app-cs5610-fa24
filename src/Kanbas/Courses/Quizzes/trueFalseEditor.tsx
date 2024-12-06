@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
 
-export default function MultipleChoiceEditor({ question, updateQuestion } : {
+export default function TrueFalseEditor({ question, updateQuestion } : {
     question: any,
     updateQuestion: (question: any) => void
 }) {
@@ -12,7 +12,12 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
     const [options, setOptions] = useState(question.options ? question.options : [
         {
             _id: uuidv4(),
-            answer: "",
+            answer: "True",
+            correct: false,
+        },
+        {
+            _id: uuidv4(),
+            answer: "False",
             correct: false,
         }
     ]);
@@ -50,22 +55,12 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
                                     }
                                 }}/>
                             { option.correct ? 
-                                <label className="form-check-label text-success" htmlFor={`${option._id}-radio`}>Correct Answer</label> : 
-                                <label className="form-check-label" htmlFor={`${option._id}-radio`}>Possible Answer</label>}
+                                <label className="form-check-label text-success" htmlFor={`${option._id}-radio`}>{option.answer}</label> : 
+                                <label className="form-check-label" htmlFor={`${option._id}-radio`}>{option.answer}</label>}
                         </div>
-                        <textarea className="form-control mt-2" value={option.answer} 
-                            onChange={(e) => {updateOption({ ...option, answer: e.target.value })}} />
                     </div>
                 );
             })}
-            <a className="text-danger float-end" onClick={() => {
-                const newOption = {
-                    _id: uuidv4(),
-                    answer: "",
-                    correct: false,
-                };
-                setOptions([...options, newOption]);
-            }}>+ Add Another Answer</a><br />
             <button className="btn btn-secondary float-start mt-2 me-2"
                 onClick={() => {
                     const updatedQuestion = { ...question, editing: false };

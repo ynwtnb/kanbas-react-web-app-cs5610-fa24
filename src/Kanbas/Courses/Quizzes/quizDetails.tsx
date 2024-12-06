@@ -28,7 +28,8 @@ export default function QuizDetails() {
     return (
         <div id="wd-quiz-details">
             <ProtectedContent role={['FACULTY']}>
-                <button id='wd-quiz-preview' className="btn btn-secondary me-2">Preview</button>
+                <button id='wd-quiz-preview' className="btn btn-secondary me-2"
+                    onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/preview`)}>Preview</button>
                 <button id='wd-quiz-preview' className="btn btn-secondary"
                     onClick={() => { navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/edit`); }}><GrEdit className="me-2" />Edit</button>
                 <hr />

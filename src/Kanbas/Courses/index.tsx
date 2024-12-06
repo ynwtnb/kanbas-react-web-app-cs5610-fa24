@@ -8,6 +8,7 @@ import AssignmentEditor from './Assignments/Editor';
 import QuizEditor from './Quizzes/quizEditor';
 import DetailsEditor from './Quizzes/detailsEditor';
 import QuizDetails from './Quizzes/quizDetails';
+import QuizPreview from './Quizzes/quizPreview';
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { AsyncResource } from 'async_hooks';
 import { FaAlignJustify } from "react-icons/fa";
@@ -50,6 +51,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Quizzes" element={<Quizzes />} />
+                        <Route path="Quizzes/:qid/preview/*" element={<QuizPreview />} />
                         <Route path="Quizzes/:qid/edit/*" element={<QuizEditor />} />
                         <Route path="Quizzes/:qid" element={<QuizDetails />} />
                         <Route path="Zoom" element={<h2>Zoom</h2>} />

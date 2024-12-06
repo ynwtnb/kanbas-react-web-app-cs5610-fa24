@@ -7,6 +7,7 @@ import { updateQuiz } from "./reducer";
 import { useDispatch } from "react-redux";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import MultipleChoiceEditor from "./multipleChoiceEditor";
+import TrueFalseEditor from "./trueFalseEditor";
 import { fetchAssignments } from "../Assignments/util";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { GrHomeOption } from "react-icons/gr";
@@ -70,13 +71,13 @@ export default function QuestionsEditor( { quiz, setQuiz }: {
                             </button>
                             <b className="float-end pt-2">{q.points} pts</b>
                             <div className="dropdown float-end me-3">
-                                <select className="form-select" aria-label="Default select example" defaultValue="Multiple Choice"
+                                <select className="form-select" aria-label="Default select example" value={q.quizType}
                                     onChange={(e) => {
                                         const updatedQuestion = {...q, quizType: e.target.value};
                                         updateQuestion(updatedQuestion);
                                     }}>
                                     <option value="Multiple Choice" className="dropdown-item">Multiple Choice</option>
-                                    <option value="True False" className="dropdown-item">True/False</option>
+                                    <option value="True/False" className="dropdown-item">True/False</option>
                                     <option value="Fill in the Blank" className="dropdown-item">Fill in the Blank</option>
                                 </select>
                             </div>
@@ -84,10 +85,11 @@ export default function QuestionsEditor( { quiz, setQuiz }: {
                         <div className="card-body">
                             <div className="card-text">
                                 {q.editing && q.quizType === 'Multiple Choice' ? <MultipleChoiceEditor question={q} updateQuestion={updateQuestion} /> : null}
+                                {q.editing && q.quizType === 'True/False' ? <TrueFalseEditor question={q} updateQuestion={updateQuestion} /> : null}
                                 {!q.editing ? (
                                     q.question !== "" ? <span dangerouslySetInnerHTML={{ __html: q.question }} /> : "Click to edit question"
                                 ) : null}
-                                {!q.editing && q.quizType === "Multiple Choice" && q.options ? 
+                                {!q.editing && (q.quizType === "Multiple Choice" || q.quizType === "True/False") && q.options ? 
                                     q.options.map((option: any) => {
                                         return (
                                             <div>
