@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import React from "react";
 import * as client from "../../Account/client";
+import ProtectedContent from "../../ProtectedContent";
 export default function PeopleDetails() {
 	const { uid } = useParams();
 	const [user, setUser] = useState<any>({});
@@ -52,18 +53,20 @@ export default function PeopleDetails() {
 			</div>
 			<hr />
 			<div className="text-danger fs-4 wd-name">
-				{!editing && (
-					<FaPencil
-						onClick={() => setEditing(true)}
-						className="float-end fs-5 mt-2 wd-edit"
-					/>
-				)}
-				{editing && (
-					<FaCheck
-						onClick={() => saveUser()}
-						className="float-end fs-5 mt-2 me-2 wd-save"
-					/>
-				)}
+				<ProtectedContent role={["ADMIN"]}>
+					{!editing && (
+						<FaPencil
+							onClick={() => setEditing(true)}
+							className="float-end fs-5 mt-2 wd-edit"
+						/>
+					)}
+					{editing && (
+						<FaCheck
+							onClick={() => saveUser()}
+							className="float-end fs-5 mt-2 me-2 wd-save"
+						/>
+					)}
+				</ProtectedContent>
 				{!editing && (
 					<div className="wd-name" onClick={() => setEditing(true)}>
 						{user.firstName} {user.lastName}
@@ -124,20 +127,22 @@ export default function PeopleDetails() {
 			<br />
 			<b>Total Activity:</b>{" "}
 			<span className="wd-total-activity">{user.totalActivity}</span> <hr />
-			<button
-				onClick={() => deleteUser(uid)}
-				className="btn btn-danger float-end wd-delete"
-			>
-				{" "}
-				Delete{" "}
-			</button>
-			<button
-				onClick={() => navigate(-1)}
-				className="btn btn-secondary float-start float-end me-2 wd-cancel"
-			>
-				{" "}
-				Cancel{" "}
-			</button>
+			<ProtectedContent role={["ADMIN"]}>
+				<button
+					onClick={() => deleteUser(uid)}
+					className="btn btn-danger float-end wd-delete"
+				>
+					{" "}
+					Delete{" "}
+				</button>
+				<button
+					onClick={() => navigate(-1)}
+					className="btn btn-secondary float-start float-end me-2 wd-cancel"
+				>
+					{" "}
+					Cancel{" "}
+				</button>
+			</ProtectedContent>
 		</div>
 	);
 }
