@@ -11,6 +11,7 @@ import TrueFalseEditor from "./trueFalseEditor";
 import { fetchAssignments } from "../Assignments/util";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { GrHomeOption } from "react-icons/gr";
+import FillInTheBlankEditor from "./fillInTheBlankEditor";
 
 export default function QuestionsEditor( { quiz, setQuiz }: {
     quiz: any,
@@ -86,6 +87,7 @@ export default function QuestionsEditor( { quiz, setQuiz }: {
                             <div className="card-text">
                                 {q.editing && q.quizType === 'Multiple Choice' ? <MultipleChoiceEditor question={q} updateQuestion={updateQuestion} /> : null}
                                 {q.editing && q.quizType === 'True/False' ? <TrueFalseEditor question={q} updateQuestion={updateQuestion} /> : null}
+                                {q.editing && q.quizType === 'Fill in the Blank' ? <FillInTheBlankEditor question={q} updateQuestion={updateQuestion} /> : null}
                                 {!q.editing ? (
                                     q.question !== "" ? <span dangerouslySetInnerHTML={{ __html: q.question }} /> : "Click to edit question"
                                 ) : null}

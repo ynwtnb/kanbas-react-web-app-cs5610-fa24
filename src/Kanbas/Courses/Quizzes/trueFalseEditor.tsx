@@ -35,7 +35,16 @@ export default function TrueFalseEditor({ question, updateQuestion } : {
     }
     return (
         <div>
-            <h6><label htmlFor="multiple-choice-question" className="form-label"><b>Question:</b></label></h6>
+            <div className="d-flex flex-row justify-content-between mb-4">
+                <input type='text' className="form-control w-50" value={editedQuestion.title} 
+                    onChange={(e) => { setEditedQuestion({ ...editedQuestion, title: e.target.value }) }} />
+                <div>
+                    <label htmlFor="pt-input" className="form-label float-end mt-1 ms-2">pts</label>
+                    <input type='number' className="form-control w-25 float-end" id="pt-input" value={editedQuestion.points}
+                        onChange={(e) => { setEditedQuestion({ ...editedQuestion, points: e.target.value }) }}/> 
+                </div>
+            </div>
+            <h6><b>Question:</b></h6>
             <Editor value={editedQuestion.question} onChange={(e) => setEditedQuestion({ ...editedQuestion, question: e.target.value })} />
             <h6 className="mt-2"><b>Answers:</b></h6>
             {options.map((option: any) => {

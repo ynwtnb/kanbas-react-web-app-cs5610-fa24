@@ -3,8 +3,9 @@ import Editor from 'react-simple-wysiwyg';
 import { useState } from "react";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
+import { FaTrash } from "react-icons/fa";
 
-export default function MultipleChoiceEditor({ question, updateQuestion } : {
+export default function FillInTheBlankEditor({ question, updateQuestion } : {
     question: any,
     updateQuestion: (question: any) => void
 }) {
@@ -13,21 +14,20 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
         {
             _id: uuidv4(),
             answer: "",
-            correct: false,
+            correct: true,
+            caseSensitive: false,
         }
     ]);
     const updateOption = (option: any) => {
         const updatedOptions = options.map((o: any) => o._id === option._id ? option : o);
-        if (option.correct) {
-            updatedOptions.map((o: any) => {
-                if (o._id !== option._id) {
-                    o.correct = false;
-                }
-            });
-        }
         setOptions(updatedOptions);
         setEditedQuestion({ ...editedQuestion, options: updatedOptions });
-    }
+    };
+    const deleteOption = (optionId: string) => {
+        const updatedOptions = options.filter((o: any) => o._id !== optionId);
+        setOptions(updatedOptions);
+        setEditedQuestion({ ...editedQuestion, options: updatedOptions });
+    };
     return (
         <div>
             <div className="d-flex flex-row justify-content-between mb-4">
@@ -42,36 +42,35 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
             <h6><b>Question:</b></h6>
             <Editor value={editedQuestion.question} onChange={(e) => setEditedQuestion({ ...editedQuestion, question: e.target.value })} />
             <h6 className="mt-2"><b>Answers:</b></h6>
-            {options.map((option: any) => {
-                return (
-                    <div key={option._id}>
-                        <div className="form-check mt-2">
-                            {option.correct ?
-                                <FaArrowAltCircleRight className="text-success fs-5 me-2" /> : null}
-                            <input type="radio" id={`${option._id}-radio`} name="correct-radio" 
-                                className="form-check-input"
-                                checked={option.correct}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        updateOption({ ...option, correct: true });
-                                    } else {
-                                        updateOption({ ...option, correct: false });
-                                    }
-                                }}/>
-                            { option.correct ? 
-                                <label className="form-check-label text-success" htmlFor={`${option._id}-radio`}>Correct Answer</label> : 
-                                <label className="form-check-label" htmlFor={`${option._id}-radio`}>Possible Answer</label>}
+            <div className="row-col-3">
+                {options.map((option: any) => {
+                    return (
+                        <div>
+                        <div key={option._id} className="mt-2 row">
+                            <label className="form-label float-start col-4 mt-1" htmlFor={`possible-answer-${option._id}`}>Possible Answer:</label>
+                            <input type='text' className="form-control col" id={`possible-answer-${option._id}`} value={option.answer} 
+                                onChange={(e) => {updateOption({ ...option, answer: e.target.value })}} />
+                            <FaTrash className="col-1 mt-2"
+                                onClick={() => {deleteOption(option._id)}}/>
                         </div>
-                        <textarea className="form-control mt-2" value={option.answer} 
-                            onChange={(e) => {updateOption({ ...option, answer: e.target.value })}} />
-                    </div>
-                );
-            })}
-            <a className="text-danger float-end" onClick={() => {
+                        <div className="row mt-1">
+                            <div className="col-4"></div>
+                            <div className="col form-check">
+                                <input type='checkbox' className="form-check-input float-start" id={`case-${option._id}`} checked={option.caseSensitive}
+                                    onChange={(e) => {updateOption({ ...option, caseSensitive: e.target.checked })}} />
+                                <label className="form-check-label float-start" htmlFor={`case-${option._id}`}>Case Sensitive</label>
+                            </div>
+                        </div>
+                        </div>
+                    );
+                })}
+            </div>
+            <a className="text-danger float-end mt-2" onClick={() => {
                 const newOption = {
                     _id: uuidv4(),
                     answer: "",
-                    correct: false,
+                    correct: true,
+                    caseSensitive: false,
                 };
                 setOptions([...options, newOption]);
             }}>+ Add Another Answer</a><br />

@@ -72,6 +72,10 @@ export default function QuizPreview() {
                                     </div>
                                 );})
                         : null}
+                        {currentQuestion && 
+                            currentQuestion.quizType == 'Fill in the Blank' ? 
+                                <input type="text" className="form-control mt-2" />
+                        : null}
                     </div>
                 </div>
             </div>
