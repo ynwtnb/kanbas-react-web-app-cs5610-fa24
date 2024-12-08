@@ -14,14 +14,21 @@ import { addAssignment, updateAssignment } from "../Assignments/reducer";
 
 export default function QuizEditor() {
     const { cid, qid } = useParams();
-    const { quizzes } = useSelector((state: any) => state.quizzesReducer);
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const [quizzes, setQuizzes] = useState<any>([]);
     const [quiz, setQuiz] = useState<any>({});
     const [newQuiz, setNewQuiz] = useState(false);
+    const [quizResponse, setQuizResponse] = useState<any>([]);
     const dispatch = useDispatch();
+    const getQuizzes = () => {
+        const fetchedQuizzes = assignments.filter((assignment: any) => assignment.assignmentGroup === "QUIZZES");
+        setQuizzes(fetchedQuizzes);
+    }; 
     const getQuiz = () => {
-        const editedQuiz = quizzes.filter((q: any) => (q._id == qid))
-        if (editedQuiz.length > 0) {
-            editedQuiz.map((q: any) => setQuiz(q));
+        const editedQuiz = quizzes.find((q: any) => (q._id == qid))
+        if (editedQuiz) {
+            setQuiz(editedQuiz);
+            setNewQuiz(false);
         }
         else {
             setQuiz({ 
@@ -49,10 +56,8 @@ export default function QuizEditor() {
             });
             setNewQuiz(true);
         }
-        console.log(newQuiz);
     };
     const createQuiz = async (quiz: any) => {
-        console.log(quiz);
         const newQuiz = await coursesClient.createAssignmentForCourse(cid as string, quiz);
         dispatch(addAssignment(newQuiz));
     };
@@ -60,9 +65,12 @@ export default function QuizEditor() {
         const updatedQuiz = assignmentsClient.updateAssignment(quiz._id, quiz);
         dispatch(updateAssignment(updatedQuiz));
     }
+    useEffect (() => {
+        getQuizzes();
+    }, []);
     useEffect(() => {
         getQuiz();
-    }, []);
+    }, [quizzes]);
     return (
         <div>
             <QuizEditorNavigation />

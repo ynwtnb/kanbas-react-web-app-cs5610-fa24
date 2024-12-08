@@ -3,7 +3,6 @@ import { FaPlus } from "react-icons/fa";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { updateQuiz } from "./reducer";
 import { useDispatch } from "react-redux";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import MultipleChoiceEditor from "./multipleChoiceEditor";

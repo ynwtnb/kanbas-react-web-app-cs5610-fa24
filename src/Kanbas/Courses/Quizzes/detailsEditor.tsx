@@ -80,6 +80,14 @@ export default function DetailsEditor({ quiz, setQuiz } : {
                                 checked={quiz.multipleAttempts !== null ? quiz.multipleAttempts : false}
                                 onChange={(e) => setQuiz({ ...quiz, multipleAttempts: e.target.checked })} />
                         </div>
+                        {
+                            quiz.multipleAttempts ? 
+                            <div className="border-0 mt-3">
+                                <label htmlFor="wd-how-many-attempts" className="form-label">How many attempts</label>
+                                <input type='number' id="wd-how-many-attempts" className="form-control" value={quiz.howManyAttempts}
+                                    onChange={(e) => setQuiz({ ...quiz, howManyAttempts: e.target.value })} />
+                            </div> : null
+                        }
                         <div className="form-check mt-3">
                             <label htmlFor="wd-correct-answers" className="form-check-label">Show Correct Answers</label>
                             <input type="checkbox" id="wd-correct-answers" className="form-check-input" 
