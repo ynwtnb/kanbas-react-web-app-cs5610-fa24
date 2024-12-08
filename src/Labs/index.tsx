@@ -14,7 +14,7 @@ export default function Labs() {
         <Provider store={store}>
             <div id = "wd-labs">
                 <h1>Labs</h1>
-                <h2>Yuna Watanabe</h2>
+                <h2>Yuna Watanabe (Graduate)</h2>
                 <TOC />
                 <Routes>
                     <Route path = "/" element = {<Navigate to = "Lab1" />} />
