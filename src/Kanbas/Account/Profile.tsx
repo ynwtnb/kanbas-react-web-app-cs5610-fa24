@@ -22,6 +22,14 @@ export default function Profile() {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
   };
+  const formatDate = (date: any) => {
+    if (!date) return "";
+    const localDate = new Date(date);
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, "0");
+    const day = String(localDate.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   useEffect(() => { fetchProfile(); }, []);
   return (
     <div id="wd-profile-screen">
@@ -37,7 +45,7 @@ export default function Profile() {
             onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}/>
           <input id="wd-lastname" value={profile.lastName} placeholder="Last Name"  className="form-control mb-2"
             onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}/>
-          <input id="wd-dob" placeholder="yyyy-mm-dd" value={profile.dob} type="date"  className="form-control mb-2"
+          <input id="wd-dob" placeholder="yyyy-mm-dd" value={formatDate(profile.dob)} type="date"  className="form-control mb-2"
             onChange={(e) => setProfile({ ...profile, dob: e.target.value })}/>
           <input id="wd-email" value={profile.email} type="email"  className="form-control mb-2"
             onChange={(e) => setProfile({ ...profile, email: e.target.value })}/>

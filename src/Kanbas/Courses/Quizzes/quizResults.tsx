@@ -110,6 +110,13 @@ export default function QuizResults() {
             return 0;
         }
     };
+    const getTotalPoints = () => {
+        let totalPoints = 0;
+        quizResponse.map((qr: any) => {
+            totalPoints += qr.points;
+        });
+        return totalPoints;
+    };
     return (
         <div>
             <h2>
@@ -120,7 +127,8 @@ export default function QuizResults() {
                 </ProtectedContent>
             </h2>
             Attempts {quizEntry ? quizEntry.attemptNumber : null}<br />
-            Submitted: {quizEntry ? new Date(quizEntry.submissionDate).toLocaleString() : null}
+            Submitted: {quizEntry ? new Date(quizEntry.submissionDate).toLocaleString() : null}<br />
+            <b>Total Score: {getTotalPoints()}</b>
             <hr />
             {quiz.questions && quiz.questions.map((question: any) => {
                 return (

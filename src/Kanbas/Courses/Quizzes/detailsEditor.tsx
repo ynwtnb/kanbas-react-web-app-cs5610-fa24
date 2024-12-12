@@ -6,6 +6,7 @@ import React from "react";
 import * as assignmentsClient from "../Assignments/client";
 import * as coursesClient from "../client";
 import { formatDate } from "../Assignments/util";
+import Editor from 'react-simple-wysiwyg';
 
 export default function DetailsEditor({ quiz, setQuiz } : {
     quiz: any,
@@ -17,8 +18,8 @@ export default function DetailsEditor({ quiz, setQuiz } : {
                 <label htmlFor = "wd-name" className="form-label">Quiz Name</label>
                 <input id = "wd-name" className="form-control" value = {quiz.title} 
                     onChange={(e) => setQuiz({...quiz, title: e.target.value }) }/><br /><br />
-                <textarea id = "wd-description" value={quiz.description} className="form-control" cols = {50} rows = {8}
-                    onChange={(e) => setQuiz({...quiz, description: e.target.value }) }/>
+                <div className="mb-2">Description</div>
+                <Editor value={quiz.description} onChange={(e) => setQuiz({...quiz, description: e.target.value })} />
                 <div className="row mt-5 me-5 row-col-2">
                     <label htmlFor = "wd-type" className="col form-label text-end mt-2">Quiz Type</label>
                     <select id = "wd-type" className="col form-select" value={quiz.type ? quiz.type : "Graded Quiz"}

@@ -15,7 +15,7 @@ import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 
 export default function Kanbas() {
-	const [courses, setCourses] = useState<any[]>(db.courses);
+	const [courses, setCourses] = useState<any[]>([]);
 	const [enrolling, setEnrolling] = useState<boolean>(false);
 	const { currentUser } = useSelector((state: any) => state.accountReducer);
 	const findCoursesForUser = async () => {
@@ -25,6 +25,7 @@ export default function Kanbas() {
 		} catch (error) {
 			console.error(error);
 		}
+		console.log(courses);
 	};
 	const fetchCourses = async () => {
 		try {
@@ -32,8 +33,12 @@ export default function Kanbas() {
 			const enrolledCourses = await userClient.findCoursesForUser(
 				currentUser._id
 			);
+			console.log(enrolledCourses);
 			const courses = allCourses.map((course: any) => {
-				if (enrolledCourses.find((c: any) => c._id === course._id)) {
+				if (enrolledCourses.find((c: any) => {
+					if (c) return c._id === course._id;
+					else return false
+				})) {
 					return { ...course, enrolled: true };
 				} else {
 					return course;
@@ -93,10 +98,12 @@ export default function Kanbas() {
 		await courseClient.updateCourse(course);
 		setCourses(
 			courses.map((c) => {
-				if (c._id === course._id) {
-					return course;
-				} else {
-					return c;
+				if (c) {
+					if (c._id === course._id) {
+						return course;
+					} else {
+						return c;
+					}
 				}
 			})
 		);

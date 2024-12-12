@@ -21,6 +21,7 @@ export default function PeopleTable({ users = [] }: { users?: any[] }) {
             {users
             // .filter((usr) => enrollments.some((enrollment) => enrollment.user === usr._id && enrollment.course === cid))
             .map((user: any) => (
+                user ?
                 <tr key = {user._id}>
                     <td className="wd-full-name text-nowrap">
                         <Link to={pathname.includes("Users") ? `/Kanbas/Account/Users/${user._id}` : `/Kanbas/Courses/${cid}/People/${user._id}`} className="text-decoration-none">
@@ -35,6 +36,7 @@ export default function PeopleTable({ users = [] }: { users?: any[] }) {
                     <td className="wd-last-activity">{user.lastActivity}</td>
                     <td className="wd-total-activity">{user.totalActivity}</td>
                 </tr>
+                : null
             ))}
             </tbody>
         </table>

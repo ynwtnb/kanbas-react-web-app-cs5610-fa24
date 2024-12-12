@@ -10,7 +10,10 @@ export default function ProtectedCourse({ courses, enrolling, children }: { cour
     if (!currentUser) {
         return <Navigate to="/Kanbas/Account/Signin" />;
     }
-    const course = courses.find((c: any) => c._id === cid);
+    const course = courses.find((c: any) => {
+        if (c) return c._id === cid
+        else return false
+    });
     if (!course || enrolling) {
         return <Navigate to="/Kanbas/Dashboard" />;
     } else {

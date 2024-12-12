@@ -1,7 +1,7 @@
 import React from "react";
 import Editor from 'react-simple-wysiwyg';
 import { useState } from "react";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaTrash } from "react-icons/fa";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function MultipleChoiceEditor({ question, updateQuestion } : {
@@ -25,6 +25,11 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
                 }
             });
         }
+        setOptions(updatedOptions);
+        setEditedQuestion({ ...editedQuestion, options: updatedOptions });
+    }
+    const deleteOption = (optionId: any) => {
+        const updatedOptions = options.filter((o: any) => o._id !== optionId);
         setOptions(updatedOptions);
         setEditedQuestion({ ...editedQuestion, options: updatedOptions });
     }
@@ -61,6 +66,7 @@ export default function MultipleChoiceEditor({ question, updateQuestion } : {
                             { option.correct ? 
                                 <label className="form-check-label text-success" htmlFor={`${option._id}-radio`}>Correct Answer</label> : 
                                 <label className="form-check-label" htmlFor={`${option._id}-radio`}>Possible Answer</label>}
+                            <FaTrash className="text-danger float-end mt-1" onClick={() => deleteOption(option._id)} />
                         </div>
                         <textarea className="form-control mt-2" value={option.answer} 
                             onChange={(e) => {updateOption({ ...option, answer: e.target.value })}} />
